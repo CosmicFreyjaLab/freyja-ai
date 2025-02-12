@@ -1,0 +1,71 @@
+name: Build & Test Freyja AI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Xcode
+        run: sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer
+
+      - name: Install dependencies
+        run: |
+          brew install python3 coremltools
+          pip3 install -r models/requirements.txt  # Whisper & Llama conversion
+
+      - name: Convert AI Models to CoreML
+        run: |
+          python models/convert_whisper.py
+          python models/convert_llama.py
+
+      - name: Build macOS & iOS App
+        run: |
+          xcodebuild -workspace ios-app/FreyjaAI.xcworkspace \
+                     -scheme FreyjaAI \
+                     -sdk macosx \
+                     -destination 'platform=macOS,arch=x86_64' \
+                     clean build
+
+      - name: Run Tests
+        run: |
+          xcodebuild test -workspace ios-app/FreyjaAI.xcworkspace \
+                          -scheme FreyjaAI \
+                          -destination 'platform=macOS,arch=x86_64'
+
+      - name: Archive macOS Build
+        run: |
+          xcodebuild -workspace ios-app/FreyjaAI.xcworkspace \
+                     -scheme FreyjaAI \
+                     -sdk macosx \
+                     -configuration Release \
+                     -archivePath FreyjaAI.xcarchive \
+                     archive
+
+      - name: Upload macOS Build Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: FreyjaAI-macOS
+          path: FreyjaAI.xcarchive
+
+      - name: Archive iOS Build
+        run: |
+          xcodebuild -workspace ios-app/FreyjaAI.xcworkspace \
+                     -scheme FreyjaAI \
+                     -sdk iphoneos \
+                     -configuration Release \
+                     -archivePath FreyjaAI-iOS.xcarchive \
+                     archive
+
+      - name: Upload iOS Build Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: FreyjaAI-iOS
+          path: FreyjaAI-iOS.xcarchive
