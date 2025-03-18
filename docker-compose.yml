@@ -1,0 +1,10 @@
+services:
+  graphDB:
+    image: semitechnologies/weaviate:latest
+    volumes: 
+     - /Users/dima/.weaviate/
+    environment:
+      LOL: kek
+    ports:
+      - 8080:8080
+      - 50051:50051
