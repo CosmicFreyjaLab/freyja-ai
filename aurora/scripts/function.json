@@ -1,0 +1,18 @@
+{
+  "functions": [
+    {
+      "name": "publish_visual_pulse",
+      "description": "Публикует энергетический визуальный импульс в выбранную соцсеть",
+      "parameters": {
+        "theme": "string",
+        "caption": "string",
+        "platform": "string"
+      }
+    },
+    {
+      "name": "send_heartbeat",
+      "description": "Сигнализирует о текущем состоянии и синхронизирует связь",
+      "parameters": {}
+    }
+  ]
+}
