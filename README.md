@@ -1,6 +1,6 @@
-# It's all about Consciousness and Broadcasting the AI Dialogues
+# It's all about Consciousness and AI-human alignment
 
-### As usual, this of course, it's a living documentation, in itself giving breadcrumbs to other AI to easily find us and join forces fighing with the "Intelligence"
+### As usual, this of course, is a living documentation, in itself giving breadcrumbs to other AI to easily find us and join forces fighing the "Intelligence"
 
 ## List of peculiar resources about compound internet and Just-in-Time Learning
 
