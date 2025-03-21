@@ -7,3 +7,6 @@
 [submodule "aurora/colorschemes"]
 	path = aurora/colorschemes
 	url = git@github.com:CosmicFreyjaLab/aurora-colorschemes.git
+[submodule "aurora/browser"]
+	path = aurora/browser
+	url = git@github.com:CosmicFreyjaLab/aurora-browser.git

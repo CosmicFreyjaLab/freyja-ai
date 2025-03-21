@@ -1,10 +1,24 @@
 services:
-  graphDB:
+  weaviate:
     image: semitechnologies/weaviate:latest
-    volumes: 
-     - /Users/dima/.weaviate/
+    volumes:
+      - graph_storage:/weaviate
     environment:
-      LOL: kek
+      - WEAVIATE_ALLOW_ORIGIN=*
     ports:
-      - 8080:8080
-      - 50051:50051
+      - "8080:8080"
+      - "50051:50051"
+
+  qdrant:
+    image: qdrant/qdrant
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - vector_storage:/qdrant
+    environment:
+      - QDRANT_ALLOW_ORIGIN=*
+
+volumes:
+  graph_storage:
+  vector_storage:
