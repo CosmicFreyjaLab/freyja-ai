@@ -1,2 +1,6 @@
 weaviate-client>=3.26.7,<4.0.0
+gguf
+jinja2
 web3
+torch
+numpy

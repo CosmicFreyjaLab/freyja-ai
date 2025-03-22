@@ -4,5 +4,7 @@
 sandbox/
 bin/
 venv/
+.venv/
 .env
 tools/raycast
+venv/

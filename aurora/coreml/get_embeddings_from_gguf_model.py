@@ -25,6 +25,13 @@ class SimpleEmbedder(nn.Module):
         # Simple embedding lookup and mean pooling
         return self.embedding(input_ids).mean(dim=1)
 
+def get_embeddings_from_pretrained_model(gguf_path):
+    #
+
+def get_attention_mask_from_pretrained(gguf_path):
+    #
+
+
 def extract_embedding_size(gguf_path):
     """Extract embedding size from GGUF model"""
     print(f"Loading GGUF model to extract embedding size: {gguf_path}")
