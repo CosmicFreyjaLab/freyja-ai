@@ -10,3 +10,9 @@
 [submodule "aurora/browser"]
 	path = aurora/browser
 	url = git@github.com:CosmicFreyjaLab/aurora-browser.git
+[submodule "aurora-tokenomics"]
+	path = aurora-tokenomics
+	url = git@github.com:CosmicFreyjaLab/aurora-tokenomics.git
+[submodule "web3-copilot"]
+	path = web3-copilot
+	url = git@github.com:CosmicFreyjaLab/web3-copilot.git
