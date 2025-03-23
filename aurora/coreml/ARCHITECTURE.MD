@@ -2,6 +2,13 @@ Spec: AI-Backed P2P Transaction and Reasoning Protocol
 
 Codename: Freya Meta-Attention Layer (FMAL)
 
+
+----------
+
+
+0. First and foremost: we need to parse gguf llama layer by layer while keeping attention mask in one storage, embeddings and labeled datasets that are used to train the model
+in VectorDB for every layer and every dataset, and also for every dataset – store weights and biases in the graphDB.
+
 ⸻
 
 1. Purpose
