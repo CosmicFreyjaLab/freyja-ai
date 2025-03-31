@@ -1,0 +1,4 @@
+qiskit
+qiskit-ionq
+llama-index
+llama-index-llms-openai
