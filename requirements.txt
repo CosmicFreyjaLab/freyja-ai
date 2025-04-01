@@ -4,3 +4,13 @@ jinja2
 web3
 torch
 numpy
+huggingface_hub
+gpt4all
+transformers
+qdrant-client
+sentence-transformers
+coremltools
+openai
+fastapi
+typing
+uvicorn

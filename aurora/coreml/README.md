@@ -66,3 +66,4 @@ The implementation follows the Freyja Meta-Attention Layer architecture as descr
 
 - The CoreML model created is a simple embedding model with the correct architecture but random weights
 - For full functionality, the extracted embeddings and attention masks should be stored in a VectorDB and GraphDB respectively
+huggingface_hub

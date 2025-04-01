@@ -9,3 +9,5 @@ venv/
 .env
 tools/raycast
 venv/
+aurora/chain
+aurora/coreml

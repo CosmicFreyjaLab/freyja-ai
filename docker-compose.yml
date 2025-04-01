@@ -5,6 +5,8 @@ services:
       - graph_storage:/weaviate
     environment:
       - WEAVIATE_ALLOW_ORIGIN=*
+      - AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED=true
+      - ENABLE_API_BASED_MODULES=true
     ports:
       - "8080:8080"
       - "50051:50051"
@@ -17,7 +19,15 @@ services:
     volumes:
       - vector_storage:/qdrant
     environment:
-      - QDRANT_ALLOW_ORIGIN=*
+      - QDRANT__TELEMETRY_DISABLED=true
+      - QDRANT__TELEMETRY__METRICS=false
+      - QDRANT__TELEMETRY__TRACING=false
+      - QDRANT__SERVICE__API_KEY=comosellama
+      - QDRANT__STORAGE__HNSW__M=32  # Higher connectivity = faster search
+      - QDRANT__STORAGE__HNSW__EF_CONSTRUCT=512  # Balance build/search speed?"
+      - QDRANT__STORAGE__VECTORS__ON_DISK=true  # Store vectors on disk
+      - QDRANT__STORAGE__WAL_CAPACITY=100000  # Default: 32,000
+
 
 volumes:
   graph_storage:
