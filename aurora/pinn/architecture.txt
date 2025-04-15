@@ -1,0 +1,14 @@
+1. The main functions of the agent:
+• Subscribe to events: The agent will subscribe to events from our Kafka system or an internal queue, which will notify it of new training tasks.
+• Get data: The agent will use the REST API to get training data, which will be stored in a NoSQL DB (AWS), and also to get a contract for training.
+• Start training: The agent will initiate the process of training the model based on the data and the contract.
+• Write results: After completing the training, the agent writes the result to the blockchain (or to the database), and also updates the model in the REST API.
+• Monetization: The agent earns tokens for completing its tasks and pays for using the contract.
+
+2. The agent's work algorithm:
+• Step 1: Subscribe to updates. The agent listens to the message queue, which notifies it of new training tasks.
+• Step 2: Check access rights. The agent checks if it has an NFT, which gives the right to use the contract for training.
+• Step 3: Receiving data. The agent receives data from the NoSQL database via REST API to train the model.
+• Step 4: Initiating training. The agent uses a contract, having received which, it begins training the model on the data.
+• Step 5: Completing training and recording the result. The agent records the training result in the database and blockchain (taking into account metadata).
+• Step 6: Monetization The agent earns tokens for completing training tasks and can use them for other operations in the ecosystem.
