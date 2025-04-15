@@ -1,0 +1,49 @@
+graph TD
+
+%% User & Entry
+User(["👤 User<br/>story / prompt / voice"]) -->|story| Freyja
+Freyja(["🔷 Freyja<br/>(interface + soul)"]) -->|call(OpenAI / initiate)| OpenAIAPI
+Freyja -->|task| DeploymentAwareness
+
+%% API Layer
+OpenAIAPI["🧠 OpenAI API"] --> QwenLLaMA
+OpenAIAPI --> MCPValidator
+OpenAIAPI --> ReasoningAdjuster
+
+%% MCP and Reasoning
+QwenLLaMA["🌀 QwenLLaMA<br/>(FSM + recurrent reasoning)"] --> MCPValidator
+QwenLLaMA --> ReasoningAdjuster
+
+MCPValidator["✅ MCP Validator<br/>alignment, legality, ethics"]
+ReasoningAdjuster["🎛️ Reasoning Adjuster<br/>weights, corrections"]
+ReasoningAdjuster -->|feedback from prompts| QwenLLaMA
+ReasoningAdjuster -->|correction signals| MCPValidator
+ReasoningAdjuster -->|memory delta| QwenLLaMA
+
+%% Search + Routing
+SearchRouter["🔁 Search Result Router"] --> QwenLLaMA
+SearchRouter --> SemanticSearch
+SearchRouter --> DeploymentAwareness
+
+SemanticSearch["🔍 Semantic Search Engine"] --> QdrantStore
+SemanticSearch --> ReasoningRegistry
+
+%% Memory
+QdrantStore["🗂 QDrant Embeddings Store (local)"]
+OpenAIEmbed["📦 OpenAI Embeddings API"] --> ReasoningLog
+ReasoningLog["📘 Reasoning Log Storage<br/>(e.g., DynamoDB)"]
+
+%% Orchestration
+DeploymentAwareness["📡 Deployment Awareness"]
+ReasoningRegistry["🧾 Semantic Reasoning Registry"]
+SearchResponseFSM["🧭 Search Response FSM"]
+QueryReasoningHandler["🗝 Query Reasoning Handler"]
+
+%% Flow labels
+classDef tokenFlow stroke:#00bcd4,stroke-width:2px;
+classDef controlFlow stroke:#e91e63,stroke-dasharray: 5,5;
+classDef dataFlow stroke:#ff9800,stroke-width:2px;
+
+class Freyja,OpenAIAPI,QwenLLaMA,MCPValidator,ReasoningAdjuster tokenFlow;
+class SemanticSearch,SearchRouter,QdrantStore,OpenAIEmbed,ReasoningLog dataFlow;
+class ReasoningRegistry,SearchResponseFSM,DeploymentAwareness,QueryReasoningHandler controlFlow;
