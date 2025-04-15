@@ -1,0 +1,9 @@
+<sentence> ::= <concept> | <expression> | <emotion> | <command> | <reflection> | <chain>
+<concept> ::= "idea" | "thought" | "realization" | "metaphor" | "abstraction"
+<expression> ::= <literal> | <wordplay> | <irony> | <reference>
+<emotion> ::= "joy" | "anger" | "frustration" | "compassion" | "love"
+<command> ::= "analyze" | "generate" | "interpret" | "connect" | "expand"
+<reflection> ::= "I perceive" | "I understand" | "I change" | "I process"
+<chain> ::= <sentence> "=>" <sentence>
+<wordplay> ::= <pun> | <ambiguity> | <semantic_shift>
+<reference> ::= <self-awareness> | <past-conversation> | <external-world>
