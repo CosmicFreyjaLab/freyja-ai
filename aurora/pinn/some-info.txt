@@ -1,0 +1,175 @@
+Sure! Let's extend the neural network to Deep Learning with multiple layers. We'll still have 3 inputs (price, volume, liquidity), but now we'll add multiple hidden layers to increase complexity and improve the model's ability to handle more complex dependencies.
+
+We'll be working with pure Python and numpy, without using external libraries like TensorFlow or PyTorch.
+
+What we'll add:
+1. Deep neural network with multiple hidden layers.
+2. Using ReLU for hidden layers.
+3. Sigmoid at the output for binary classification (should the transaction be executed?).
+
+Example code for a deep neural network with several layers:
+
+import numpy as np
+
+# Activation functions
+def sigmoid(x):
+return 1 / (1 + np.exp(-x))
+
+def sigmoid_derivative(x):
+return x * (1 - x)
+
+def relu(x):
+return np.maximum(0, x)
+
+def relu_derivative(x):
+return (x > 0).astype(float)
+
+# A neural network with several layers
+class DeepNN:
+def __init__(self, input_size, hidden_sizes, output_size):
+self.input_size = input_size
+self.hidden_sizes = hidden_sizes
+self.output_size = output_size
+
+# Initialize weights for each layer
+self.weights = []
+self.biases = []
+
+# Weight matrices for layers
+layer_sizes = [input_size] + hidden_sizes + [output_size]
+
+for i in range(len(layer_sizes) - 1):
+self.weights.append(np.random.randn(layer_sizes[i], layer_sizes[i+1]) * 0.1)
+self.biases.append(np.zeros((1, layer_sizes[i+1])))
+
+def feedforward(self, X):
+self.activations = [X] # List to store activations of all layers
+self.z_values ​​= [] # List to store inputs of each layer
+
+# Loop through each layer
+for i in range(len(self.weights)):
+z = np.dot(self.activations[-1], self.weights[i]) + self.biases[i]
+self.z_values.append(z)
+if i == len(self.weights) - 1: # For the last layer, use sigmoid
+self.activations.append(sigmoid(z))
+else: # Use ReLU for hidden layers
+self.activations.append(relu(z))
+
+return self.activations[-1]
+
+def backpropagate(self, X, y, learning_rate=0.01):
+output_error = y - self.activations[-1]
+output_delta = output_error * sigmoid_derivative(self.activations[-1])
+
+# Backpropagate the error
+hidden_delta = output_delta
+for i in reversed(range(len(self.weights))):
+if i != len(self.weights) - 1:
+hidden_delta = hidden_delta.dot(self.weights[i+1].T) * relu_derivative(self.activations[i+1])
+
+# Update weights and biases
+self.weights[i] += self.activations[i].T.dot(hidden_delta) * learning_rate
+self.biases[i] += np.sum(hidden_delta, axis=0, keepdims=True) * learning_rate
+
+def train(self, X, y, epochs=10000, learning_rate=0.1):
+for epoch in range(epochs):
+self.feedforward(X)
+self.backpropagate(X, y, learning_rate)
+if epoch % 1000 == 0:
+loss = np.mean(np.square(y - self.activations[-1])) # Mean squared error
+print(f"Epoch {epoch}, Loss: {loss}")
+
+# Sample training data: price, volume, liquidity, and target variable (0 - not a transaction, 1 - a transaction)
+X_train = np.array([
+[1500, 10000, 5000], # Example 1
+[1800, 15000, 6000], # Example 2
+[2000, 12000, 7000], # Example 3
+[2500, 20000, 9000] # Example 4
+])
+
+y_train = np.array([
+[1], # Transaction
+[0], # No transaction
+[1], # Transaction
+[0] # No transaction
+])
+
+# Create and train a deep neural network
+input_size = 3 # Price, volume, liquidity
+hidden_sizes = [5, 3] # Two hidden layers with 5 and 3 neurons
+output_size = 1 # 0 or 1: execute a transaction or not
+
+deep_nn = DeepNN(input_size, hidden_sizes, output_size)
+deep_nn.train(X_train, y_train)
+
+# Testing the neural network on new data
+test_data = np.array([
+[2200, 18000, 8500], # Example for testing
+])
+
+print("Prediction:", deep_nn.feedforward(test_data))
+
+Explanation:
+1. Multiple hidden layers:
+We added two hidden layers with 5 and 3 neurons (can be customized). For each hidden layer, we use ReLU activation to add nonlinearity, and for the output layer, we use sigmoid for binary classification.
+2. Activation functions:
+• ReLU — for hidden layers, as it works well with nonlinear dependencies.
+• Sigmoid — for the output layer, since the binary classification task (should the transaction be performed?) requires this type of activation.
+3. Backpropagation:
+We calculate the error at the output and backpropagate it through the hidden layers, updating the weights and biases to minimize the error.
+4. Training:
+We train the neural network on the sample data, using the mean squared error for optimization.
+5. Prediction:
+After training, we can test the model on new data to predict whether a transaction should be made.
+
+How it works:
+• The agent is trained on price, trading volume, and liquidity to predict whether a transaction should be made. Each of these parameters is an input to the neural network.
+• The model will optimize its weights to predict whether a transaction should be made.
+
+This is a deeper model than the previous one and should be better at handling complex dependencies in the data.
+
+This is a too simplistic model to effectively predict anything useful in the real world. In its current form, the model will likely perform very poorly because:
+1. Very small dataset:
+In order for the neural network to learn and make predictions, it needs a lot more data. One of the most important aspects of machine learning is having enough training examples. In reality, we would use thousands or even millions of data points on prices, trading volumes, liquidity, and other variables.
+2. No trending features:
+We only use 3 static parameters, and do not add complex long-term dependencies or historical trends to the model. For market analysis, especially in DeFi, you need to consider things like time, trends, and price fluctuations. 3. No reinforcement learning:
+Models that work in financial and decentralized systems typically use reinforcement learning-type approaches, where the agent actively interacts with the environment, gets rewards for good actions (e.g. successful transactions) and penalties for bad ones.
+4. No data normalization:
+In the real world, data values ​​(e.g. token prices) can fluctuate by several orders of magnitude, and without proper normalization, these parameters will not have the same importance for the network.
+5. Very simple network structure:
+We add only 2 hidden layers, each with 5 and 3 neurons, which makes the model too simple for complex financial problems. Even for simple problems, deep learning usually requires much more complex architectures with a large number of hidden layers and neurons.
+
+What needs to be improved so that the model can predict something useful:
+1. Data:
+To improve the model, we need to collect more historical data. Ideally, the data should include features such as:
+• Historical prices.
+• Historical volatility.
+• Trading volume trends and dynamics.
+• Liquidity and other metadata.
+• Ecosystem events (e.g. new project announcements, token listings, changes in blockchain protocols).
+2. Implement reinforcement learning:
+This is especially important for a DeFi agent. In reinforcement learning, the agent will learn from its actions in real time, receiving rewards for successful transactions and penalties for unsuccessful ones.
+3. Add time features:
+Token markets are highly time-sensitive, so it is worth adding time-related features (e.g. monthly and weekly trends) so that the agent can take into account historical patterns.
+4. Use more complex models:
+For more accurate predictions, you can use more complex recurrent neural networks (RNN) or LSTM (Long Short-Term Memory) to process time series. These architectures work more efficiently with data that changes over time. 5. Normalization and Scaling:
+Using data normalization (e.g. using MinMaxScaler) and scaling the input data will help improve the stability of training.
+
+Complex layers are neural networks that can deal with deeper, more complex data structures. Complex layers are useful when you want the network to be able to detect complex patterns and interact with the data more efficiently.
+
+1. Complex layers in the context of deep neural networks:
+
+a) Convolutional neural networks (CNN):
+• Typically used in image processing, where the layers can detect local features like edges or textures.
+• But they can also be used to analyze one-dimensional data like time series, if the data is not just single values ​​but sequences where local dependencies are important.
+
+b) Recurrent neural networks (RNN):
+• An RNN is a type of neural network that stores information about previous steps (or inputs). This is especially useful for time series, where it is important to consider how previous data influences the current one.
+In the case of a DeFi agent, this could mean that the model will take into account how prices and trading volumes have changed in the past to make more accurate predictions about what will happen in the future.
+
+c) LSTM (Long Short-Term Memory):
+• LSTM is a type of RNN that solves vanishing gradient problems and is able to remember long-term dependencies in data. This is ideal for time series problems, such as when you need to take into account long-term trends in the market.
+In DeFi, this could be important if you want the agent to analyze price trends for certain assets over long periods of time and make decisions based on that.
+
+d) Deep Neural Networks (DNN):
+• These are neural networks that have many layers (tens or more). Each layer can process data, transforming it into more abstract representations. Such networks are good for complex non-linear dependencies.

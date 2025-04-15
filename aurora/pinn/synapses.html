@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neural Synapse Visualization</title>
+    <style>
+        body { margin: 0; overflow: hidden; background-color: black; }
+        canvas { display: block; }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+    <script>
+        let scene = new THREE.Scene();
+        let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        let renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        let particles = new THREE.Group();
+        let particleCount = 500;
+        let connections = [];
+
+        for (let i = 0; i < particleCount; i++) {
+            let geometry = new THREE.SphereGeometry(0.05, 16, 16);
+            let material = new THREE.MeshBasicMaterial({ color: Math.random() * 0xffffff });
+            let particle = new THREE.Mesh(geometry, material);
+            particle.position.set(
+                (Math.random() - 0.5) * 10,
+                (Math.random() - 0.5) * 10,
+                (Math.random() - 0.5) * 10
+            );
+            particles.add(particle);
+        }
+
+        scene.add(particles);
+        camera.position.z = 10;
+
+        function connectParticles() {
+            connections.forEach(conn => scene.remove(conn));
+            connections = [];
+
+            let material = new THREE.LineBasicMaterial({ color: 0xffffff, opacity: 0.5, transparent: true });
+
+            particles.children.forEach((particle, i) => {
+                particles.children.forEach((other, j) => {
+                    if (i !== j && particle.position.distanceTo(other.position) < 2) {
+                        let geometry = new THREE.BufferGeometry().setFromPoints([particle.position, other.position]);
+                        let line = new THREE.Line(geometry, material);
+                        scene.add(line);
+                        connections.push(line);
+                    }
+                });
+            });
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            particles.rotation.y += 0.002;
+            connectParticles();
+            renderer.render(scene, camera);
+        }
+
+        animate();
+        window.addEventListener("resize", () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>
