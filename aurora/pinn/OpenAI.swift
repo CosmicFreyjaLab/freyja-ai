@@ -7,7 +7,7 @@ let openAI = OpenAI()
 let userMood = "Feeling energized and focused today."
 
 // Send data to OpenAI for analysis
-openAI.completions.create(model: "text-davinci-003", prompt: userMood, maxTokens: 100) { result in
+openAI.completions.create(model: "gpt-4o", prompt: userMood, maxTokens: 100) { result in
     switch result {
     case .success(let response):
         // Process and update UI with AI feedback

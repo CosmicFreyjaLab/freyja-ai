@@ -1,6 +1,8 @@
-.DS_Store
-.idea/
-*.gguf
+**/.DS_Store
+**/[.idea/, .venv/, venv/]
+**/*[.out, .dvi, .aux, .log]
+**/*[.swp, .swo]
+**/*[.gguf, .venv]
 sandbox/
 aws/
 bin/

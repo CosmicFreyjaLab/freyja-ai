@@ -1,6 +1,3 @@
-[submodule "aurora/backend"]
-	path = aurora/backend
-	url = git@github.com:CosmicFreyjaLab/aurora-backend.git
 [submodule "aurora/tools"]
 	path = aurora/tools
 	url = git@github.com:CosmicFreyjaLab/aurora-tools.git
